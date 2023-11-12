@@ -21,12 +21,12 @@ app.get("/store-to-db", async () => {
   res.status(200).send({ message: "stored to Db", data: storedData });
 });
 
-app.get("/search/", async (req, res) => {
+app.get("/search", async (req, res) => {
   try {
     let { search_q = "", page, limit, month } = req.query;
     page = Number(page) || 1;
     limit = Number(limit) || 10;
-    month = Number(month) - 1 || 2;
+    month = Number(month) || 3;
     const skip = (page - 1) * limit;
     const result = await ProductModel.find().skip(skip).limit(limit);
     const filterData = result.filter(
@@ -34,7 +34,7 @@ app.get("/search/", async (req, res) => {
         (each?.title?.toLowerCase()?.includes(search_q?.toLowerCase()) ||
           each?.description?.toLowerCase()?.includes(search_q?.toLowerCase()) ||
           each?.price === Number(search_q)) &&
-        new Date(each?.dateOfSale).getMonth() === month
+        new Date(each?.dateOfSale).getMonth() === month - 1
     );
     res
       .status(200)
@@ -46,7 +46,7 @@ app.get("/search/", async (req, res) => {
 
 app.get("/stats", async (req, res) => {
   try {
-    const monthNumber = req.query.month - 1 || 2;
+    const monthNumber = req.query.month || 3;
     const result = await ProductModel.find();
     const filterData = result.filter(
       (each) => new Date(each?.dateOfSale).getMonth() === monthNumber
@@ -69,37 +69,69 @@ app.get("/stats", async (req, res) => {
   }
 });
 
-app.get("/price-range", async (req, res) => {
+app.get("/price-range-stats", async (req, res) => {
   try {
+    const monthNumber = req.query.month || 3;
     const result = await ProductModel.find();
     const zeroToHundread = result.filter(
-      (each) => each?.price > 0 && each?.price <= 100
+      (each) =>
+        new Date(each?.dateOfSale).getMonth() === monthNumber &&
+        each?.price > 0 &&
+        each?.price <= 100
     );
     const hundreadToTwoHundread = result.filter(
-      (each) => each?.price > 100 && each?.price <= 200
+      (each) =>
+        each?.price > 100 &&
+        each?.price <= 200 &&
+        new Date(each?.dateOfSale).getMonth() === monthNumber
     );
     const twoHundreadToThreeHundread = result.filter(
-      (each) => each?.price > 200 && each?.price <= 300
+      (each) =>
+        each?.price > 200 &&
+        each?.price <= 300 &&
+        new Date(each?.dateOfSale).getMonth() === monthNumber
     );
     const threeHundreadToFourHundread = result.filter(
-      (each) => each?.price > 300 && each?.price <= 400
+      (each) =>
+        each?.price > 300 &&
+        each?.price <= 400 &&
+        new Date(each?.dateOfSale).getMonth() === monthNumber
     );
     const fourHundreadToFiveHundread = result.filter(
-      (each) => each?.price > 400 && each?.price <= 500
+      (each) =>
+        each?.price > 400 &&
+        each?.price <= 500 &&
+        new Date(each?.dateOfSale).getMonth() === monthNumber
     );
     const fiveHundreadToSixHundread = result.filter(
-      (each) => each?.price > 500 && each?.price <= 600
+      (each) =>
+        each?.price > 500 &&
+        each?.price <= 600 &&
+        new Date(each?.dateOfSale).getMonth() === monthNumber
     );
     const sixHundreadToSevenHundread = result.filter(
-      (each) => each?.price > 600 && each?.price <= 700
+      (each) =>
+        each?.price > 600 &&
+        each?.price <= 700 &&
+        new Date(each?.dateOfSale).getMonth() === monthNumber
     );
     const sevenHundreadToEightHundread = result.filter(
-      (each) => each?.price > 700 && each?.price <= 800
+      (each) =>
+        each?.price > 700 &&
+        each?.price <= 800 &&
+        new Date(each?.dateOfSale).getMonth() === monthNumber
     );
     const eightHundreadToNineHundread = result.filter(
-      (each) => each?.price > 800 && each?.price <= 900
+      (each) =>
+        each?.price > 800 &&
+        each?.price <= 900 &&
+        new Date(each?.dateOfSale).getMonth() === monthNumber
     );
-    const aboveNineHundread = result.filter((each) => each?.price > 900);
+    const aboveNineHundread = result.filter(
+      (each) =>
+        each?.price > 900 &&
+        new Date(each?.dateOfSale).getMonth() === monthNumber
+    );
     res.status(200).send({
       zeroToHundread,
       hundreadToTwoHundread,
