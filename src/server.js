@@ -154,14 +154,13 @@ app.get("/unique-category", async (req, res) => {
     const monthNumber = req.query.month || 3;
     const result = await ProductModel.find();
     const uniqueCategoriesList = [];
-    // [{category: "electronics", value: 1}]
     let uniqueCategories = {};
     const filterData = result.filter(
       (each) => new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     filterData.map((each) => {
       if (!uniqueCategories.hasOwnProperty(each?.category)) {
-        uniqueCategories[each?.category] = 0;
+        uniqueCategories[each?.category] = 1;
       } else {
         uniqueCategories[each?.category] += 1;
       }
