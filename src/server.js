@@ -151,9 +151,13 @@ app.get("/price-range-stats", async (req, res) => {
 
 app.get("/unique-category", async (req, res) => {
   try {
+    const monthNumber = req.query.month || 3;
     const result = await ProductModel.find();
     let uniqueCategories = {};
-    result.map((each) => {
+    const filterData = result.filter(
+      (each) => new Date(each?.dateOfSale).getMonth() === monthNumber - 1
+    );
+    filterData.map((each) => {
       if (!uniqueCategories.hasOwnProperty(each?.category)) {
         uniqueCategories[each?.category] = 1;
       } else {
