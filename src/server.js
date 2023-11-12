@@ -49,7 +49,7 @@ app.get("/stats", async (req, res) => {
     const monthNumber = req.query.month || 3;
     const result = await ProductModel.find();
     const filterData = result.filter(
-      (each) => new Date(each?.dateOfSale).getMonth() === monthNumber
+      (each) => new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     const totalSale = filterData.reduce(
       (accumulator, { price }) => accumulator + price,
@@ -75,7 +75,7 @@ app.get("/price-range-stats", async (req, res) => {
     const result = await ProductModel.find();
     const zeroToHundread = result.filter(
       (each) =>
-        new Date(each?.dateOfSale).getMonth() === monthNumber &&
+        new Date(each?.dateOfSale).getMonth() === monthNumber - 1 &&
         each?.price > 0 &&
         each?.price <= 100
     );
@@ -83,54 +83,54 @@ app.get("/price-range-stats", async (req, res) => {
       (each) =>
         each?.price > 100 &&
         each?.price <= 200 &&
-        new Date(each?.dateOfSale).getMonth() === monthNumber
+        new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     const twoHundreadToThreeHundread = result.filter(
       (each) =>
         each?.price > 200 &&
         each?.price <= 300 &&
-        new Date(each?.dateOfSale).getMonth() === monthNumber
+        new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     const threeHundreadToFourHundread = result.filter(
       (each) =>
         each?.price > 300 &&
         each?.price <= 400 &&
-        new Date(each?.dateOfSale).getMonth() === monthNumber
+        new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     const fourHundreadToFiveHundread = result.filter(
       (each) =>
         each?.price > 400 &&
         each?.price <= 500 &&
-        new Date(each?.dateOfSale).getMonth() === monthNumber
+        new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     const fiveHundreadToSixHundread = result.filter(
       (each) =>
         each?.price > 500 &&
         each?.price <= 600 &&
-        new Date(each?.dateOfSale).getMonth() === monthNumber
+        new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     const sixHundreadToSevenHundread = result.filter(
       (each) =>
         each?.price > 600 &&
         each?.price <= 700 &&
-        new Date(each?.dateOfSale).getMonth() === monthNumber
+        new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     const sevenHundreadToEightHundread = result.filter(
       (each) =>
         each?.price > 700 &&
         each?.price <= 800 &&
-        new Date(each?.dateOfSale).getMonth() === monthNumber
+        new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     const eightHundreadToNineHundread = result.filter(
       (each) =>
         each?.price > 800 &&
         each?.price <= 900 &&
-        new Date(each?.dateOfSale).getMonth() === monthNumber
+        new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     const aboveNineHundread = result.filter(
       (each) =>
         each?.price > 900 &&
-        new Date(each?.dateOfSale).getMonth() === monthNumber
+        new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     res.status(200).send({
       zeroToHundread,
