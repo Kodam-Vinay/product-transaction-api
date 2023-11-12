@@ -153,18 +153,27 @@ app.get("/unique-category", async (req, res) => {
   try {
     const monthNumber = req.query.month || 3;
     const result = await ProductModel.find();
+    const uniqueCategoriesList = [];
+    // [{category: "electronics", value: 1}]
     let uniqueCategories = {};
     const filterData = result.filter(
       (each) => new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     filterData.map((each) => {
       if (!uniqueCategories.hasOwnProperty(each?.category)) {
-        uniqueCategories[each?.category] = 1;
+        uniqueCategories[each?.category] = 0;
       } else {
         uniqueCategories[each?.category] += 1;
       }
     });
-    res.status(200).send(uniqueCategories);
+
+    const results = Object.entries(uniqueCategories).map(
+      ([category, value]) => ({
+        category,
+        value,
+      })
+    );
+    res.status(200).send(results);
   } catch (error) {
     res.status(500).send(error);
   }
