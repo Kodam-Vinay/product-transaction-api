@@ -26,7 +26,7 @@ app.get("/search", async (req, res) => {
     let { search_q = "", page, limit, month } = req.query;
     page = Number(page) || 1;
     limit = Number(limit) || 10;
-    month = Number(month) || 3;
+    month = month || 3;
     const skip = (page - 1) * limit;
     const result = await ProductModel.find().skip(skip).limit(limit);
     const filterData = result.filter(
