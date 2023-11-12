@@ -133,16 +133,16 @@ app.get("/price-range-stats", async (req, res) => {
         new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     res.status(200).send({
-      zeroToHundread,
-      hundreadToTwoHundread,
-      twoHundreadToThreeHundread,
-      threeHundreadToFourHundread,
-      fourHundreadToFiveHundread,
-      fiveHundreadToSixHundread,
-      sixHundreadToSevenHundread,
-      sevenHundreadToEightHundread,
-      eightHundreadToNineHundread,
-      aboveNineHundread,
+      "0-100": zeroToHundread.length,
+      "101-200": hundreadToTwoHundread.length,
+      "201-300": twoHundreadToThreeHundread.length,
+      "301-400": threeHundreadToFourHundread.length,
+      "401-500": fourHundreadToFiveHundread.length,
+      "501-600": fiveHundreadToSixHundread.length,
+      "601-700": sixHundreadToSevenHundread.length,
+      "701-800": sevenHundreadToEightHundread.length,
+      "801-900": eightHundreadToNineHundread.length,
+      "901 above": aboveNineHundread.length,
     });
   } catch (error) {
     res.status(500).send(500);
