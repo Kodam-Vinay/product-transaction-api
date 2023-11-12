@@ -133,16 +133,16 @@ app.get("/price-range-stats", async (req, res) => {
         new Date(each?.dateOfSale).getMonth() === monthNumber - 1
     );
     res.status(200).send([
-      { name: "0-100", noOfItems: zeroToHundread.length },
-      { name: "101-200", noOfItems: hundreadToTwoHundread.length },
-      { name: "201-300", noOfItems: twoHundreadToThreeHundread.length },
-      { name: "301-400", noOfItems: threeHundreadToFourHundread.length },
-      { name: "401-500", noOfItems: fourHundreadToFiveHundread.length },
-      { name: "501-600", noOfItems: fiveHundreadToSixHundread.length },
-      { name: "601-700", noOfItems: sixHundreadToSevenHundread.length },
-      { name: "701-800", noOfItems: sevenHundreadToEightHundread.length },
-      { name: "701-800", noOfItems: eightHundreadToNineHundread.length },
-      { name: "901 above", noOfItems: aboveNineHundread.length },
+      { name: "0-100", value: zeroToHundread.length },
+      { name: "101-200", value: hundreadToTwoHundread.length },
+      { name: "201-300", value: twoHundreadToThreeHundread.length },
+      { name: "301-400", value: threeHundreadToFourHundread.length },
+      { name: "401-500", value: fourHundreadToFiveHundread.length },
+      { name: "501-600", value: fiveHundreadToSixHundread.length },
+      { name: "601-700", value: sixHundreadToSevenHundread.length },
+      { name: "701-800", value: sevenHundreadToEightHundread.length },
+      { name: "701-800", value: eightHundreadToNineHundread.length },
+      { name: "901 above", value: aboveNineHundread.length },
     ]);
   } catch (error) {
     res.status(500).send(500);
