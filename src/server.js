@@ -17,13 +17,13 @@ app.use(
 app.get("/store-to-db", async () => {
   const response = await fetch(THIRD_PARTY_URL);
   const data = await response.json();
-  await ProductModel.insertMany(data);
+  const storedData = await ProductModel.insertMany(data);
+  res.status(200).send({ message: "stored to Db", data: storedData });
 });
 
 app.get("/search/", async (req, res) => {
   try {
     let { search_q = "", page, limit } = req.query;
-    console.log(search_q);
     page = Number(page) || 1;
     limit = Number(limit) || 10;
     const skip = (page - 1) * limit;
