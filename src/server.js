@@ -23,18 +23,19 @@ app.get("/store-to-db", async () => {
 
 app.get("/search/", async (req, res) => {
   try {
-    let { search_q = "", page, limit } = req.query;
+    let { search_q = "", page, limit, month } = req.query;
     page = Number(page) || 1;
     limit = Number(limit) || 10;
+    month = Number(month) - 1 || 2;
     const skip = (page - 1) * limit;
     const result = await ProductModel.find().skip(skip).limit(limit);
     const filterData = result.filter(
       (each) =>
-        each?.title?.toLowerCase()?.includes(search_q?.toLowerCase()) ||
-        each?.description?.toLowerCase()?.includes(search_q?.toLowerCase()) ||
-        each?.price === Number(search_q)
+        (each?.title?.toLowerCase()?.includes(search_q?.toLowerCase()) ||
+          each?.description?.toLowerCase()?.includes(search_q?.toLowerCase()) ||
+          each?.price === Number(search_q)) &&
+        new Date(each?.dateOfSale).getMonth() === month
     );
-
     res
       .status(200)
       .send({ data: filterData, items: filterData.length, page: page });
@@ -45,7 +46,7 @@ app.get("/search/", async (req, res) => {
 
 app.get("/stats", async (req, res) => {
   try {
-    const monthNumber = req.query.month - 1;
+    const monthNumber = req.query.month - 1 || 2;
     const result = await ProductModel.find();
     const filterData = result.filter(
       (each) => new Date(each?.dateOfSale).getMonth() === monthNumber
